@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PEJeaQbSM+57Gp5G3LV3GGtWExkQGL/LMwZbLgCeR6fUKzzPkNEIZEJGmx44+lqJ9LS4jU17tbr8qmR3tdRmcw==",
+  "dgSpecHash": "dHYtUUrGQJf9qf2t6XbjMD2WoO+oUdAa0lz5Ce/dGKW3Od3JoGdt5w0xkstBWT3IKnu9uACl6KFYGRgJCLalYA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Desktop\\Project\\PN-Chat\\PNChatServer\\PNChatServer\\PNChatServer.csproj",
   "expectedPackageFiles": [
@@ -44,6 +44,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

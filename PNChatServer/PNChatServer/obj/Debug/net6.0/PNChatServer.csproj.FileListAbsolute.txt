@@ -82,3 +82,4 @@ C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Debug\net6.
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Debug\net6.0\PNChatServer.pdb
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Debug\net6.0\PNChatServer.genruntimeconfig.cache
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Debug\net6.0\ref\PNChatServer.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\Newtonsoft.Json.dll
