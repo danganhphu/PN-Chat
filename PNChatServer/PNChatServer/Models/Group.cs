@@ -20,8 +20,8 @@
 
         public DateTime LastActive { get; set; }
 
-        public virtual ICollection<GroupUser> GroupUsers { get; } = new List<GroupUser>();
+        public virtual ICollection<GroupUser> GroupUsers { get; set; } = new List<GroupUser>();
 
-        public virtual ICollection<Message> Messages { get; } = new List<Message>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }

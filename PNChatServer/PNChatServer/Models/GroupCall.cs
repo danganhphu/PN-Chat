@@ -20,6 +20,6 @@
 
         public DateTime LastActive { get; set; }
 
-        public virtual ICollection<Call> Calls { get; } = new List<Call>();
+        public virtual ICollection<Call> Calls { get; set; } = new List<Call>();
     }
 }
