@@ -26,14 +26,14 @@
 
         public string? CurrentSession { get; set; }
 
-        public virtual ICollection<Call> Calls { get; } = new List<Call>();
+        public virtual ICollection<Call> Calls { get; set; } = new List<Call>();
 
-        public virtual ICollection<Contact> Contacts { get; } = new List<Contact>();
+        public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
-        public virtual ICollection<Contact> ContactUsers { get; } = new List<Contact>();
+        public virtual ICollection<Contact> ContactUsers { get; set; } = new List<Contact>();
 
-        public virtual ICollection<GroupUser> GroupUsers { get; } = new List<GroupUser>();
+        public virtual ICollection<GroupUser> GroupUsers { get; set; } = new List<GroupUser>();
 
-        public virtual ICollection<Message> Messages { get; } = new List<Message>();
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }
