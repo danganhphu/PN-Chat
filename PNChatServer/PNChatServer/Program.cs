@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PNChatServer.Data;
 using PNChatServer.Hubs;
 using PNChatServer.Repository;
@@ -26,6 +27,41 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    {
+        Title = "PNChat API",
+        Version = "v1" 
+    
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 #region jwt
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -48,10 +84,17 @@ builder.Services.AddScoped<IUserService, UserService>();
 #endregion
 
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PNChat API V1");
+    });
     app.UseDeveloperExceptionPage();
 }
+
 app.UseRouting();
 app.UseCors(policy);
 app.UseAuthorization();
