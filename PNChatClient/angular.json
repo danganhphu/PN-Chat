@@ -16,17 +16,10 @@
             "outputPath": "dist/pnchat-client",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -45,7 +38,7 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "staging": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -55,7 +48,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "with": "src/environments/environment.staging.ts"
                 }
               ]
             }
@@ -70,6 +63,9 @@
             },
             "development": {
               "browserTarget": "PNChatClient:build:development"
+            },
+            "staging": {
+              "browserTarget": "your-project-name:build:staging"
             }
           },
           "defaultConfiguration": "development"
@@ -83,18 +79,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
