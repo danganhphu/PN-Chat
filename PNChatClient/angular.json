@@ -65,7 +65,7 @@
               "browserTarget": "PNChatClient:build:development"
             },
             "staging": {
-              "browserTarget": "your-project-name:build:staging"
+              "browserTarget": "PNChatClient:build:staging"
             }
           },
           "defaultConfiguration": "development"
