@@ -6,9 +6,9 @@ namespace PNChatServer.Dto
     {
         public long Id { get; set; }
 
-        public string Type { get; set; } = null!;
+        public string Type { get; set; } = string.Empty;
 
-        public string GroupCode { get; set; } = null!;
+        public string GroupCode { get; set; } = string.Empty;
 
         public string? Content { get; set; }
 
@@ -16,11 +16,11 @@ namespace PNChatServer.Dto
 
         public DateTime Created { get; set; }
 
-        public string CreatedBy { get; set; } = null!;
+        public string CreatedBy { get; set; } = string.Empty;
 
-        public string SendTo { get; set; } = null!;
+        public string SendTo { get; set; } = string.Empty;
 
-        public UserDto UserCreatedBy { get; set; } = null!;
+        public UserDto? UserCreatedBy { get; set; }
 
         public List<IFormFile>? Attachments { get; set; }
     }
