@@ -4,12 +4,12 @@
     {
         public long Id { get; set; }
 
-        public string GroupCode { get; set; } = null!;
+        public string GroupCode { get; set; } = string.Empty;
 
-        public string UserCode { get; set; } = null!;
+        public string UserCode { get; set; } = string.Empty;
 
-        public virtual Group Group { get; set; } = null!;
+        public virtual Group? Group { get; set; }
 
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
     }
 }

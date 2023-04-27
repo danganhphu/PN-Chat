@@ -9,9 +9,9 @@
         /// media
         /// attachment
         /// </summary>
-        public string Type { get; set; } = null!;
+        public string Type { get; set; } = string.Empty;
 
-        public string GroupCode { get; set; } = null!;
+        public string GroupCode { get; set; } = string.Empty;
 
         public string? Content { get; set; }
 
@@ -19,10 +19,10 @@
 
         public DateTime Created { get; set; }
 
-        public string CreatedBy { get; set; } = null!;
+        public string CreatedBy { get; set; } = string.Empty;
 
-        public virtual User UserCreatedBy { get; set; } = null!;
+        public virtual User? UserCreatedBy { get; set; }
 
-        public virtual Group Group { get; set; } = null!;
+        public virtual Group? Group { get; set; }
     }
 }

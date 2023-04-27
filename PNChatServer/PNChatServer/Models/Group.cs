@@ -2,13 +2,13 @@
 {
     public class Group
     {
-        public string Code { get; set; } = null!;
+        public string Code { get; set; } = string.Empty;
 
         /// <summary>
         /// single: chat 1-1
         /// multi: chat 1-n
         /// </summary>
-        public string Type { get; set; } = null!;
+        public string Type { get; set; } = string.Empty;
 
         public string? Avatar { get; set; }
 
@@ -16,12 +16,12 @@
 
         public DateTime Created { get; set; }
 
-        public string CreatedBy { get; set; } = null!;
+        public string CreatedBy { get; set; } = string.Empty;
 
         public DateTime LastActive { get; set; }
 
-        public virtual ICollection<GroupUser> GroupUsers { get; set; } = new List<GroupUser>();
+        public virtual ICollection<GroupUser>? GroupUsers { get; set; }
 
-        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+        public virtual ICollection<Message>? Messages { get; set; }
     }
 }

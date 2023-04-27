@@ -4,14 +4,14 @@
     {
         public long Id { get; set; }
 
-        public string UserCode { get; set; } = null!;
+        public string UserCode { get; set; } = string.Empty;
 
-        public string ContactCode { get; set; } = null!;
+        public string ContactCode { get; set; } = string.Empty;
 
         public DateTime Created { get; set; }
 
-        public virtual User UserContact { get; set; } = null!;
+        public virtual User? UserContact { get; set; }
 
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
     }
 }
