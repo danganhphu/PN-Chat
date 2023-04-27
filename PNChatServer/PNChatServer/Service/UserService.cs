@@ -101,10 +101,10 @@ namespace PNChatServer.Service
         {
             return chatContext.Contacts
                      .Where(x => x.UserCode.Equals(userCode) || x.ContactCode.Equals(userCode))
-                     .OrderBy(x => x.UserContact.FullName)
+                     .OrderBy(x => x.UserContact!.FullName)
                      .Select(x => new UserDto()
                      {
-                         Avatar = x.UserContact.Avatar,
+                         Avatar = x.UserContact!.Avatar,
                          Code = x.UserContact.Code,
                          FullName = x.UserContact.FullName,
                          Address = x.UserContact.Address,

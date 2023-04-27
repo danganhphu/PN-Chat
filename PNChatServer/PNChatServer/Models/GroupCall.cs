@@ -2,7 +2,7 @@
 {
     public class GroupCall
     {
-        public string Code { get; set; } = null!;
+        public string Code { get; set; } = string.Empty;
 
         /// <summary>
         /// single: chat 1-1
@@ -20,6 +20,6 @@
 
         public DateTime LastActive { get; set; }
 
-        public virtual ICollection<Call> Calls { get; set; } = new List<Call>();
+        public virtual ICollection<Call>? Calls { get; set; }
     }
 }

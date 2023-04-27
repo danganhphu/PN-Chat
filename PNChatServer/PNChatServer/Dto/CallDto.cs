@@ -3,12 +3,12 @@
     public class CallDto
     {
         public int Id { get; set; }
-        public string GroupCallCode { get; set; } = null!;
-        public string UserCode { get; set; } = null!;
-        public string Url { get; set; } = null!;
-        public string Status { get; set; } = null!;
+        public string GroupCallCode { get; set; } = string.Empty;
+        public string UserCode { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
         public DateTime Created { get; set; }
 
-        public UserDto User { get; set; } = null!;
+        public UserDto? User { get; set; }
     }
 }
