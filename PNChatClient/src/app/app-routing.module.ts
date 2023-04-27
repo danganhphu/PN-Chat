@@ -1,7 +1,35 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './containers/login/login.component';
+import { LogoutComponent } from './containers/logout/logout.component';
+import { SignUpComponent } from './containers/sign-up/sign-up.component';
+import { HomeComponent } from './containers/home/home.component';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { PageNotFoundComponent } from './containers/page-not-found/page-not-found.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: "dang-nhap",
+    component: LoginComponent
+  },
+  {
+    path: "dang-xuat",
+    component: LogoutComponent
+  },
+  {
+    path: "dang-ky-tai-khoan",
+    component: SignUpComponent
+  },
+  {
+    path: "",
+    component: HomeComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: "**",
+    component: PageNotFoundComponent
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
