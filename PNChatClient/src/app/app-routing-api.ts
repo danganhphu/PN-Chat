@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 export class AppRoutingApi {
     static Login = environment.apiUrl + "auths/login";
     static SignUp = environment.apiUrl + "auths/sign-up";
-    static Image = environment.apiUrl + "img";
+    //static Image = environment.apiUrl + "img";
     static DownloadFile = environment.apiUrl + "file";
     static PostHubConnection = environment.apiUrl + "post-hubconnection";
 
