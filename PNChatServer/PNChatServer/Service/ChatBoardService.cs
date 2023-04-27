@@ -33,7 +33,7 @@ namespace PNChatServer.Service
         {
             //Lấy danh sách nhóm chat
             List<GroupDto> groups = chatContext.Groups
-                    .Where(x => x.GroupUsers.Any(y => y.UserCode.Equals(userSession)))
+                    .Where(x => x.GroupUsers!.Any(y => y.UserCode.Equals(userSession)))
                     .Select(x => new GroupDto()
                     {
                         Code = x.Code,
@@ -41,9 +41,9 @@ namespace PNChatServer.Service
                         Avatar = x.Avatar,
                         Type = x.Type,
                         LastActive = x.LastActive,
-                        Users = x.GroupUsers.Select(y => new UserDto()
+                        Users = x.GroupUsers!.Select(y => new UserDto()
                         {
-                            Code = y.User.Code,
+                            Code = y.User!.Code,
                             FullName = y.User.FullName,
                             Avatar = y.User.Avatar,
                         }).ToList(),
@@ -54,7 +54,7 @@ namespace PNChatServer.Service
                 //Nếu nhóm chat có type = SINGLE (chat 1-1) => đổi tên nhóm chat thành tên người chat cùng
                 if (group.Type == Constants.GroupType.SINGLE)
                 {
-                    var us = group.Users.FirstOrDefault(x => !x.Code.Equals(userSession));
+                    var us = group.Users!.FirstOrDefault(x => !x.Code.Equals(userSession));
                     group.Name = us?.FullName;
                     group.Avatar = us?.Avatar;
                 }
@@ -70,7 +70,7 @@ namespace PNChatServer.Service
                         Content = x.Content,
                         GroupCode = x.GroupCode,
                         Type = x.Type,
-                    }).FirstOrDefault()!;
+                    }).FirstOrDefault();
             });
 
             return groups.OrderByDescending(x => x.LastActive).ToList();
@@ -114,7 +114,7 @@ namespace PNChatServer.Service
                 // Nếu tồn tại nhóm chat + nhóm chat có type = SINGLE (Chat 1-1) => trả về thông tin người chat cùng
                 if (group.Type.Equals(Constants.GroupType.SINGLE))
                 {
-                    string userCode = group.GroupUsers.FirstOrDefault(x => x.UserCode != userSession)?.UserCode!;
+                    string userCode = group.GroupUsers!.FirstOrDefault(x => x.UserCode != userSession)?.UserCode!;
                     return chatContext.Users
                             .Where(x => x.Code.Equals(userCode))
                             .OrderBy(x => x.FullName)
@@ -142,11 +142,11 @@ namespace PNChatServer.Service
                         Avatar = group.Avatar,
                         Name = group.Name,
                         Type = group.Type,
-                        Users = group.GroupUsers
-                            .OrderBy(x => x.User.FullName)
+                        Users = group.GroupUsers!
+                            .OrderBy(x => x.User!.FullName)
                             .Select(x => new UserDto()
                             {
-                                Code = x.User.Code,
+                                Code = x.User!.Code,
                                 FullName = x.User.FullName,
                                 Avatar = x.User.Avatar
                             }).ToList()
@@ -174,7 +174,7 @@ namespace PNChatServer.Service
                 Avatar = Constants.AVATAR_DEFAULT
             };
 
-            List<GroupUser> groupUsers = group.Users.Select(x => new GroupUser()
+            List<GroupUser> groupUsers = group.Users!.Select(x => new GroupUser()
             {
                 UserCode = x.Code
             }).ToList();
@@ -231,8 +231,8 @@ namespace PNChatServer.Service
             {
                 string grpCode = chatContext.Groups
                     .Where(x => x.Type.Equals(Constants.GroupType.SINGLE))
-                    .Where(x => x.GroupUsers.Any(y => y.UserCode.Equals(userCode) &&
-                                x.GroupUsers.Any(y => y.UserCode.Equals(message.SendTo))))
+                    .Where(x => x.GroupUsers!.Any(y => y.UserCode.Equals(userCode) &&
+                                x.GroupUsers!.Any(y => y.UserCode.Equals(message.SendTo))))
                     .Select(x => x.Code)
                     .FirstOrDefault()!;
 
@@ -328,7 +328,7 @@ namespace PNChatServer.Service
         {
             return chatContext.Messages
                     .Where(x => x.GroupCode.Equals(groupCode))
-                    .Where(x => x.Group.GroupUsers.Any(y => y.UserCode.Equals(userCode)))
+                    .Where(x => x.Group!.GroupUsers!.Any(y => y.UserCode.Equals(userCode)))
                     .OrderBy(x => x.Created)
                     .Select(x => new MessageDto()
                     {
@@ -341,7 +341,7 @@ namespace PNChatServer.Service
                         Type = x.Type,
                         UserCreatedBy = new UserDto()
                         {
-                            Avatar = x.UserCreatedBy.Avatar
+                            Avatar = x.UserCreatedBy!.Avatar
                         }
                     }).ToList();
         }
@@ -357,14 +357,14 @@ namespace PNChatServer.Service
             // Lấy mã nhóm đã từng nhắn tin giữa 2 người
             string groupCode = chatContext.Groups
                     .Where(x => x.Type.Equals(Constants.GroupType.SINGLE))
-                    .Where(x => x.GroupUsers.Any(y => y.UserCode.Equals(userCode) &&
-                                x.GroupUsers.Any(y => y.UserCode.Equals(contactCode))))
+                    .Where(x => x.GroupUsers!.Any(y => y.UserCode.Equals(userCode) &&
+                                x.GroupUsers!.Any(y => y.UserCode.Equals(contactCode))))
                     .Select(x => x.Code)
                     .FirstOrDefault()!;
 
             return chatContext.Messages
                     .Where(x => x.GroupCode.Equals(groupCode))
-                    .Where(x => x.Group.GroupUsers.Any(y => y.UserCode.Equals(userCode)))
+                    .Where(x => x.Group!.GroupUsers!.Any(y => y.UserCode.Equals(userCode)))
                     .OrderBy(x => x.Created)
                     .Select(x => new MessageDto()
                     {
@@ -377,7 +377,7 @@ namespace PNChatServer.Service
                         Type = x.Type,
                         UserCreatedBy = new UserDto()
                         {
-                            Avatar = x.UserCreatedBy.Avatar
+                            Avatar = x.UserCreatedBy!.Avatar
                         }
                     }).ToList();
         }
