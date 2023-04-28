@@ -6,9 +6,9 @@ namespace PNChatServer.Dto
     public class ResponseAPI
     {
         public int Status { get; set; }
-        public string? Message { get; set; }
+        public string Message { get; set; } 
 
-        private object _data = string.Empty;
+        private object _data;
         public object Data
         {
             get

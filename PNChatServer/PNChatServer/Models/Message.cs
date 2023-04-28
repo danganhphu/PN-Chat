@@ -1,4 +1,6 @@
-﻿namespace PNChatServer.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PNChatServer.Models
 {
     public class Message
     {
@@ -9,20 +11,20 @@
         /// media
         /// attachment
         /// </summary>
-        public string Type { get; set; } = string.Empty;
+        public string Type { get; set; }
 
-        public string GroupCode { get; set; } = string.Empty;
+        public string GroupCode { get; set; }
 
-        public string? Content { get; set; }
+        public string Content { get; set; }
 
-        public string? Path { get; set; }
+        public string Path { get; set; }
 
         public DateTime Created { get; set; }
 
-        public string CreatedBy { get; set; } = string.Empty;
+        public string CreatedBy { get; set; }
 
-        public virtual User? UserCreatedBy { get; set; }
-
-        public virtual Group? Group { get; set; }
+        public virtual User UserCreatedBy { get; set; }
+        [ForeignKey("CreatedBy")]
+        public virtual Group Group { get; set; }
     }
 }
