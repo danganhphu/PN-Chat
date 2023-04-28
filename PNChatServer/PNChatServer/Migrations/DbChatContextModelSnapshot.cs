@@ -37,24 +37,20 @@ namespace PNChatServer.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("GroupCallCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("UserCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -77,7 +73,6 @@ namespace PNChatServer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ContactCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -86,7 +81,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("UserCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -115,7 +109,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -128,7 +121,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)")
@@ -154,7 +146,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -167,7 +158,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)")
@@ -187,13 +177,11 @@ namespace PNChatServer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("GroupCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
 
                     b.Property<string>("UserCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -222,13 +210,11 @@ namespace PNChatServer.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
 
                     b.Property<string>("GroupCode")
-                        .IsRequired()
                         .HasMaxLength(32)
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)");
@@ -238,7 +224,6 @@ namespace PNChatServer.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)")
@@ -319,13 +304,11 @@ namespace PNChatServer.Migrations
                     b.HasOne("PNChatServer.Models.GroupCall", "GroupCall")
                         .WithMany("Calls")
                         .HasForeignKey("GroupCallCode")
-                        .IsRequired()
                         .HasConstraintName("FK_Call_GroupCall");
 
                     b.HasOne("PNChatServer.Models.User", "User")
                         .WithMany("Calls")
                         .HasForeignKey("UserCode")
-                        .IsRequired()
                         .HasConstraintName("FK_Call_User");
 
                     b.Navigation("GroupCall");
@@ -338,13 +321,11 @@ namespace PNChatServer.Migrations
                     b.HasOne("PNChatServer.Models.User", "UserContact")
                         .WithMany("Contacts")
                         .HasForeignKey("ContactCode")
-                        .IsRequired()
                         .HasConstraintName("FK_Contact_User1");
 
                     b.HasOne("PNChatServer.Models.User", "User")
                         .WithMany("ContactUsers")
                         .HasForeignKey("UserCode")
-                        .IsRequired()
                         .HasConstraintName("FK_Contact_User");
 
                     b.Navigation("User");
@@ -357,13 +338,11 @@ namespace PNChatServer.Migrations
                     b.HasOne("PNChatServer.Models.Group", "Group")
                         .WithMany("GroupUsers")
                         .HasForeignKey("GroupCode")
-                        .IsRequired()
                         .HasConstraintName("FK_GroupUser_Group");
 
                     b.HasOne("PNChatServer.Models.User", "User")
                         .WithMany("GroupUsers")
                         .HasForeignKey("UserCode")
-                        .IsRequired()
                         .HasConstraintName("FK_GroupUser_User");
 
                     b.Navigation("Group");
@@ -376,13 +355,11 @@ namespace PNChatServer.Migrations
                     b.HasOne("PNChatServer.Models.User", "UserCreatedBy")
                         .WithMany("Messages")
                         .HasForeignKey("CreatedBy")
-                        .IsRequired()
                         .HasConstraintName("FK_Message_User");
 
                     b.HasOne("PNChatServer.Models.Group", "Group")
                         .WithMany("Messages")
                         .HasForeignKey("GroupCode")
-                        .IsRequired()
                         .HasConstraintName("FK_Message_Group");
 
                     b.Navigation("Group");

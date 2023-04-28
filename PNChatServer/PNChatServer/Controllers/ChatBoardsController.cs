@@ -117,7 +117,7 @@ namespace PNChatServer.Controllers
                     MissingMemberHandling = MissingMemberHandling.Ignore,
                 };
 
-                MessageDto message = JsonConvert.DeserializeObject<MessageDto>(jsonMessage, settings)!;
+                MessageDto message = JsonConvert.DeserializeObject<MessageDto>(jsonMessage, settings);
                 message.Attachments = Request.Form.Files.ToList();
 
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);

@@ -83,14 +83,14 @@ namespace PNChatServer.Controllers
 
         [Route("contacts/search")]
         [HttpGet]
-        public IActionResult SearchContact(string? keySearch = null)
+        public IActionResult SearchContact(string keySearch = null)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _userService.SearchContact(userSession, keySearch!);
+                responseAPI.Data = _userService.SearchContact(userSession, keySearch);
 
                 return Ok(responseAPI);
             }

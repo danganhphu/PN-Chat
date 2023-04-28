@@ -18,9 +18,9 @@ namespace PNChatServer.Hubs
             return base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            string? user = null;
+            string user;
             users.TryRemove(Context.ConnectionId, out user);
             return base.OnDisconnectedAsync(exception);
         }

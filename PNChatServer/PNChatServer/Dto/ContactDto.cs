@@ -3,11 +3,11 @@
     public class ContactDto
     {
         public int Id { get; set; }
-        public string UserCode { get; set; } = string.Empty;
-        public string ContactCode { get; set; } = string.Empty;
+        public string UserCode { get; set; }
+        public string ContactCode { get; set; }
         public DateTime Created { get; set; }
 
-        public UserDto? User { get; set; }
-        public UserDto? UserContact { get; set; }
+        public UserDto User { get; set; }
+        public UserDto UserContact { get; set; }
     }
 }

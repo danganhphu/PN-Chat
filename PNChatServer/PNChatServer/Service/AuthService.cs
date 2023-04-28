@@ -28,8 +28,8 @@ namespace PNChatServer.Service
         {
             string passCheck = DataHelpers.HashSHA256($"{user.UserName}_{user.Password}");
             User userExist = chatContext.Users
-                .Where(x => x.UserName!.Equals(user.UserName) && x.Password!.Equals(passCheck))
-                .FirstOrDefault()!;
+                .Where(x => x.UserName.Equals(user.UserName) && x.Password.Equals(passCheck))
+                .FirstOrDefault();
 
             if (userExist == null)
                 throw new ArgumentException("Tài khoản hoặc mật khẩu không đúng");
@@ -48,7 +48,7 @@ namespace PNChatServer.Service
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Sid, userExist.Code),
-                    new Claim(ClaimTypes.Name, userExist.UserName!),
+                    new Claim(ClaimTypes.Name, userExist.UserName),
                     new Claim(ClaimTypes.Expiration, expiresAt.ToString())
 
                 }),
@@ -61,8 +61,8 @@ namespace PNChatServer.Service
             return new AccessToken
             {
                 User = userExist.Code,
-                FullName = userExist.FullName!,
-                Avatar = userExist.Avatar!,
+                FullName = userExist.FullName,
+                Avatar = userExist.Avatar,
                 Token = jwtTokenHandler.WriteToken(token),
 
             };
@@ -74,7 +74,7 @@ namespace PNChatServer.Service
         /// <param name="user">Thông tin tài khoản</param>
         public void SignUp(User user)
         {
-            if (chatContext.Users.Any(x => x.UserName!.Equals(user.UserName)))
+            if (chatContext.Users.Any(x => x.UserName.Equals(user.UserName)))
                 throw new ArgumentException("Tài khoản đã tồn tại");
 
             User newUser = new User()
@@ -100,7 +100,7 @@ namespace PNChatServer.Service
         public void PutHubConnection(string userSession, string key)
         {
             User user = chatContext.Users
-                .FirstOrDefault(x => x.Code.Equals(userSession))!;
+                .FirstOrDefault(x => x.Code.Equals(userSession));
 
             if (user != null)
             {
