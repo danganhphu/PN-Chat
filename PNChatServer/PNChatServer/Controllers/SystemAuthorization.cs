@@ -52,7 +52,7 @@ namespace PNChatServer.Controllers
         {
             try
             {
-                string token = contextAccessor.HttpContext!.Request.Headers["Authorization"].ToString();
+                string token = contextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
                 string tokenValue = token.Replace("Bearer", string.Empty).Trim();
                 ClaimsPrincipal claimsPrincipal = DecodeJWT(tokenValue, EnviConfig.SecretKey);
                 string userSession = claimsPrincipal.FindFirstValue(ClaimTypes.Sid);
