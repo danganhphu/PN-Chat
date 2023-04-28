@@ -36,7 +36,7 @@ namespace PNChatServer.Service
                         Gender = x.Gender,
                         Phone = x.Phone,
                         Dob = x.Dob
-                    }).FirstOrDefault()!;
+                    }).FirstOrDefault();
         }
 
 
@@ -49,7 +49,7 @@ namespace PNChatServer.Service
         public UserDto UpdateProfile(string userCode, UserDto user)
         {
             User us = chatContext.Users
-                    .FirstOrDefault(x => x.Code.Equals(userCode))!;
+                    .FirstOrDefault(x => x.Code.Equals(userCode));
 
             if (us != null)
             {
@@ -57,7 +57,7 @@ namespace PNChatServer.Service
                 us.Dob = user.Dob;
                 us.Email = user.Email;
 
-                if (user.Avatar!.Contains("data:image/png;base64,"))
+                if (user.Avatar.Contains("data:image/png;base64,"))
                 {
                     string pathAvatar = $"Resource/Avatar/{Guid.NewGuid().ToString("N")}";
                     string pathFile = Path.Combine(webHostEnvironment.ContentRootPath, pathAvatar);
@@ -101,10 +101,10 @@ namespace PNChatServer.Service
         {
             return chatContext.Contacts
                      .Where(x => x.UserCode.Equals(userCode) || x.ContactCode.Equals(userCode))
-                     .OrderBy(x => x.UserContact!.FullName)
+                     .OrderBy(x => x.UserContact.FullName)
                      .Select(x => new UserDto()
                      {
-                         Avatar = x.UserContact!.Avatar,
+                         Avatar = x.UserContact.Avatar,
                          Code = x.UserContact.Code,
                          FullName = x.UserContact.FullName,
                          Address = x.UserContact.Address,
@@ -136,7 +136,7 @@ namespace PNChatServer.Service
 
             List<UserDto> users = chatContext.Users
                 .Where(x => !x.Code.Equals(userCode))
-                .Where(x => x.FullName!.Contains(keySearch) || x.Phone!.Contains(keySearch) || x.Email!.Contains(keySearch))
+                .Where(x => x.FullName.Contains(keySearch) || x.Phone.Contains(keySearch) || x.Email.Contains(keySearch))
                 .OrderBy(x => x.FullName)
                 .Select(x => new UserDto()
                 {

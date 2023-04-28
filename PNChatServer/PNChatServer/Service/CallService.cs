@@ -76,7 +76,7 @@ namespace PNChatServer.Service
             string friend = chatContext.Calls
                 .Where(x => x.GroupCallCode.Equals(groupCallCode) && x.UserCode != userSession)
                 .Select(x => x.UserCode)
-                .FirstOrDefault()!;
+                .FirstOrDefault();
 
             return chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.GroupCallCode.Equals(groupCallCode))
@@ -106,7 +106,7 @@ namespace PNChatServer.Service
             
             request.AddHeader("Authorization", $"Bearer {EnviConfig.DailyToken}");
             RestResponse response = client.ExecutePost(request);
-            DailyResponse dailyRoomResp = JsonConvert.DeserializeObject<DailyResponse>(response.Content!)!;
+            DailyResponse dailyRoomResp = JsonConvert.DeserializeObject<DailyResponse>(response.Content);
             #endregion
 
             // Lấy thông tin lịch sử cuộc gọi đã gọi cho user
@@ -115,12 +115,12 @@ namespace PNChatServer.Service
                        .Where(x => x.Calls.Any(y => y.UserCode.Equals(userSession) &&
                                    x.Calls.Any(y => y.UserCode.Equals(callTo))))
                        .Select(x => x.Code)
-                       .FirstOrDefault()!;
+                       .FirstOrDefault();
 
-            GroupCall groupCall = chatContext.GroupCalls.FirstOrDefault(x => x.Code.Equals(grpCallCode))!;
+            GroupCall groupCall = chatContext.GroupCalls.FirstOrDefault(x => x.Code.Equals(grpCallCode));
             DateTime dateNow = DateTime.Now;
 
-            User userCallTo = chatContext.Users.FirstOrDefault(x => x.Code.Equals(callTo))!;
+            User userCallTo = chatContext.Users.FirstOrDefault(x => x.Code.Equals(callTo));
 
             // Kiểm tra lịch sử cuộc gọi đã tồn tại hay chưa. Nếu chưa => tạo nhóm gọi mới.
             if (groupCall == null)
@@ -177,7 +177,7 @@ namespace PNChatServer.Service
         {
             Call call = chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.Url.Equals(url))
-                .FirstOrDefault()!;
+                .FirstOrDefault();
 
             if (call != null)
             {
@@ -197,7 +197,7 @@ namespace PNChatServer.Service
             string urlCall = chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.Url.Equals(url))
                 .Select(x => x.Url)
-                .FirstOrDefault()!;
+                .FirstOrDefault();
 
             if (!string.IsNullOrWhiteSpace(urlCall))
             {
