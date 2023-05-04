@@ -1,4 +1,7 @@
-﻿namespace PNChatServer.Utils
+﻿using System;
+using static System.Net.WebRequestMethods;
+
+namespace PNChatServer.Utils
 {
     public class Constants
     {
