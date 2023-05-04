@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PNChatServer.Data;
 using PNChatServer.Dto;
 using PNChatServer.Models;
@@ -24,18 +25,18 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="user">Thông tin tài khoản người dùng</param>
         /// <returns>AccessToken</returns>
-        public AccessToken Login(User user)
+        public async Task<AccessToken> Login(User user)
         {
             string passCheck = DataHelpers.HashSHA256($"{user.UserName}_{user.Password}");
-            User userExist = chatContext.Users
+            User userExist = await chatContext.Users
                 .Where(x => x.UserName.Equals(user.UserName) && x.Password.Equals(passCheck))
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (userExist == null)
                 throw new ArgumentException("Tài khoản hoặc mật khẩu không đúng");
 
             userExist.LastLogin = DateTime.Now;
-            chatContext.SaveChanges();
+            await chatContext.SaveChangesAsync();
 
             DateTime expirationDate = DateTime.Now.Date.AddMinutes(EnviConfig.ExpirationInMinutes);
             long expiresAt = (long)(expirationDate - new DateTime(1970, 1, 1)).TotalSeconds;
@@ -72,9 +73,9 @@ namespace PNChatServer.Service
         /// Đăng ký tài khoản người dùng
         /// </summary>
         /// <param name="user">Thông tin tài khoản</param>
-        public void SignUp(User user)
+        public async Task SignUp(User user)
         {
-            if (chatContext.Users.Any(x => x.UserName.Equals(user.UserName)))
+            if (await chatContext.Users.AnyAsync(x => x.UserName.Equals(user.UserName)))
                 throw new ArgumentException("Tài khoản đã tồn tại");
 
             User newUser = new User()
@@ -88,8 +89,8 @@ namespace PNChatServer.Service
                 Avatar = Constants.AVATAR_DEFAULT,
             };
 
-            chatContext.Users.Add(newUser);
-            chatContext.SaveChanges();
+            await chatContext.Users.AddAsync(newUser);
+            await chatContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -97,18 +98,16 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userSession">User hiện tại đang đăng nhập</param>
         /// <param name="key">HubConnection</param>
-        public void PutHubConnection(string userSession, string key)
+        public async Task PutHubConnection(string userSession, string key)
         {
-            User user = chatContext.Users
-                .FirstOrDefault(x => x.Code.Equals(userSession));
+            User user = await chatContext.Users
+                .FirstOrDefaultAsync(x => x.Code.Equals(userSession));
 
             if (user != null)
             {
                 user.CurrentSession = key;
-                chatContext.SaveChanges();
+                await chatContext.SaveChangesAsync();
             }
         }
-
-        
     }
 }

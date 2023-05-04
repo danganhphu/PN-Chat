@@ -1,4 +1,5 @@
-﻿using PNChatServer.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PNChatServer.Data;
 using PNChatServer.Dto;
 using PNChatServer.Models;
 using PNChatServer.Repository;
@@ -22,9 +23,9 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <returns>Thông tin user</returns>
-        public UserDto GetProfile(string userCode)
+        public async Task<UserDto> GetProfile(string userCode)
         {
-            return chatContext.Users
+            return await chatContext.Users
                     .Where(x => x.Code.Equals(userCode))
                     .Select(x => new UserDto()
                     {
@@ -36,7 +37,7 @@ namespace PNChatServer.Service
                         Gender = x.Gender,
                         Phone = x.Phone,
                         Dob = x.Dob
-                    }).FirstOrDefault();
+                    }).FirstOrDefaultAsync();
         }
 
 
@@ -46,10 +47,10 @@ namespace PNChatServer.Service
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <param name="user">Thông tin user</param>
         /// <returns></returns>
-        public UserDto UpdateProfile(string userCode, UserDto user)
+        public async Task<UserDto> UpdateProfile(string userCode, UserDto user)
         {
-            User us = chatContext.Users
-                    .FirstOrDefault(x => x.Code.Equals(userCode));
+            User us = await chatContext.Users
+                    .FirstOrDefaultAsync(x => x.Code.Equals(userCode));
 
             if (us != null)
             {
@@ -69,7 +70,7 @@ namespace PNChatServer.Service
                 us.Phone = user.Phone;
                 us.Gender = user.Gender;
 
-                chatContext.SaveChanges();
+                await chatContext.SaveChangesAsync();
             }
             return user;
         }
@@ -79,7 +80,7 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <param name="user">Thông tin liên hệ</param>
-        public void AddContact(string userCode, UserDto user)
+        public async Task AddContact(string userCode, UserDto user)
         {
             Contact contact = new Contact()
             {
@@ -87,9 +88,9 @@ namespace PNChatServer.Service
                 ContactCode = user.Code,
                 Created = DateTime.Now
             };
-            chatContext.Contacts.Add(contact);
+            await chatContext.Contacts.AddAsync(contact);
 
-            chatContext.SaveChanges();
+            await chatContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -97,9 +98,9 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <returns>Danh sách liên hệ</returns>
-        public List<UserDto> GetContact(string userCode)
+        public async Task<List<UserDto>> GetContact(string userCode)
         {
-            return chatContext.Contacts
+            return await chatContext.Contacts
                      .Where(x => x.UserCode.Equals(userCode) || x.ContactCode.Equals(userCode))
                      .OrderBy(x => x.UserContact.FullName)
                      .Select(x => new UserDto()
@@ -112,7 +113,7 @@ namespace PNChatServer.Service
                          Email = x.UserContact.Email,
                          Gender = x.UserContact.Gender,
                          Phone = x.UserContact.Phone
-                     }).ToList();
+                     }).ToListAsync();
         }
 
         /// <summary>
@@ -121,20 +122,20 @@ namespace PNChatServer.Service
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <param name="keySearch">Từ khóa tìm kiếm</param>
         /// <returns></returns>
-        public List<UserDto> SearchContact(string userCode, string keySearch)
+        public async Task<List<UserDto>> SearchContact(string userCode, string keySearch)
         {
             if (string.IsNullOrWhiteSpace(keySearch))
                 return new List<UserDto>();
 
-            List<ContactDto> friends = chatContext.Contacts
+            List<ContactDto> friends = await chatContext.Contacts
                    .Where(x => x.UserCode.Equals(userCode) || x.ContactCode.Equals(userCode))
                    .Select(x => new ContactDto()
                    {
                        ContactCode = x.ContactCode,
                        UserCode = x.UserCode
-                   }).ToList();
+                   }).ToListAsync();
 
-            List<UserDto> users = chatContext.Users
+            List<UserDto> users = await chatContext.Users
                 .Where(x => !x.Code.Equals(userCode))
                 .Where(x => x.FullName.Contains(keySearch) || x.Phone.Contains(keySearch) || x.Email.Contains(keySearch))
                 .OrderBy(x => x.FullName)
@@ -143,7 +144,7 @@ namespace PNChatServer.Service
                     Avatar = x.Avatar,
                     Code = x.Code,
                     FullName = x.FullName,
-                }).ToList();
+                }).ToListAsync();
 
             users.ForEach(x =>
             {
