@@ -5,8 +5,8 @@ namespace PNChatServer.Repository
 {
     public interface IAuthService
     {
-        AccessToken Login(User user);
-        void SignUp(User user);
-        void PutHubConnection(string userSession, string key);
+        Task<AccessToken> Login(User user);
+        Task SignUp(User user);
+        Task PutHubConnection(string userSession, string key);
     }
 }

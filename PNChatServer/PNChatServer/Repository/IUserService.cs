@@ -4,10 +4,10 @@ namespace PNChatServer.Repository
 {
     public interface IUserService
     {
-        UserDto GetProfile(string userCode);
-        UserDto UpdateProfile(string userCode, UserDto user);
-        List<UserDto> GetContact(string userCode);
-        List<UserDto> SearchContact(string userCode, string keySearch);
-        void AddContact(string userCode, UserDto user);
+        Task<UserDto> GetProfile(string userCode);
+        Task<UserDto> UpdateProfile(string userCode, UserDto user);
+        Task<List<UserDto>> GetContact(string userCode);
+        Task<List<UserDto>> SearchContact(string userCode, string keySearch);
+        Task AddContact(string userCode, UserDto user);
     }
 }
