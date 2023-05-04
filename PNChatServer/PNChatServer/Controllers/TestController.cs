@@ -10,7 +10,7 @@ namespace PNChatServer.Controllers
         [HttpGet]
         public string Get()
         {
-            return "API already";
+            return "PNChat API already";
         }
     }
 }

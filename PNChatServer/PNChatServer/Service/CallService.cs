@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PNChatServer.Data;
 using PNChatServer.Dto;
@@ -15,7 +16,20 @@ namespace PNChatServer.Service
         protected readonly DbChatContext chatContext;
         protected readonly IWebHostEnvironment webHostEnvironment;
         private IHubContext<ChatHub> chatHub;
-
+        private static readonly IDictionary<string, object> _configProperties = new Dictionary<string, object>()
+        {
+            { "properties",
+                new {
+                    enable_chat = true,
+                    enable_advanced_chat = true,
+                    enable_hand_raising = true,
+                    enable_emoji_reactions = true,
+                    enable_noise_cancellation_ui = true,
+                    start_video_off = true,
+                    start_audio_off = true,
+                }
+            }
+        };
         public CallService(DbChatContext chatContext, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> chatHub)
         {
             this.chatContext = chatContext;
@@ -28,9 +42,9 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userSession">User hiện tại đang đăng nhập</param>
         /// <returns>Danh sách lịch sử cuộc gọi</returns>
-        public List<GroupCallDto> GetCallHistory(string userSession)
+        public async Task<List<GroupCallDto>> GetCallHistory(string userSession)
         {
-            List<GroupCallDto> groupCalls = chatContext.GroupCalls
+            List<GroupCallDto> groupCalls = await chatContext.GroupCalls
                      .Where(x => x.Calls.Any(y => y.UserCode.Equals(userSession)))
                      .Select(x => new GroupCallDto()
                      {
@@ -50,7 +64,7 @@ namespace PNChatServer.Service
                                  Created = y.Created,
                                  Status = y.Status
                              }).ToList()
-                     }).ToList();
+                     }).ToListAsync();
             groupCalls.ForEach(grpCall =>
             {
                 /// hiển thị tên cuộc gọi là người trong cuộc thoại (không phải người đang đang nhập)
@@ -59,7 +73,7 @@ namespace PNChatServer.Service
                 grpCall.Name = us?.User.FullName;
                 grpCall.Avatar = us?.User.Avatar;
 
-                grpCall.LastCall = grpCall.Calls.FirstOrDefault()!;
+                grpCall.LastCall = grpCall.Calls.FirstOrDefault();
             });
 
             return groupCalls.OrderByDescending(x => x.LastActive).ToList();
@@ -71,14 +85,14 @@ namespace PNChatServer.Service
         /// <param name="userSession">User hiện tại đang đăng nhập</param>
         /// <param name="groupCallCode">Mã cuộc gọi</param>
         /// <returns>Danh sách cuộc gọi</returns>
-        public List<CallDto> GetHistoryById(string userSession, string groupCallCode)
+        public async Task<List<CallDto>> GetHistoryById(string userSession, string groupCallCode)
         {
-            string friend = chatContext.Calls
+            string friend = await chatContext.Calls
                 .Where(x => x.GroupCallCode.Equals(groupCallCode) && x.UserCode != userSession)
                 .Select(x => x.UserCode)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-            return chatContext.Calls
+            return await chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.GroupCallCode.Equals(groupCallCode))
                 .OrderByDescending(x => x.Created)
                 .Select(x => new CallDto()
@@ -87,7 +101,7 @@ namespace PNChatServer.Service
                     Created = x.Created,
                     UserCode = friend
                 })
-                .ToList();
+                .ToListAsync();
         }
 
         /// <summary>
@@ -96,31 +110,37 @@ namespace PNChatServer.Service
         /// <param name="userSession">User hiện tại đang đăng nhập</param>
         /// <param name="callTo">Người được gọi</param>
         /// <returns>Đường link truy câp cuộc gọi</returns>
-        public string Call(string userSession, string callTo)
+        public async Task<string> Call(string userSession, string callTo)
         {
             #region Gọi API tạo room - daily.co
+            //var e = "{ properties: { enable_chat: true } }";
+            //var d = new Dictionary<string, object>() {
+            //    { "properties", new { enable_chat = true, enable_hand_raising = true } }
+            //};
             var url = "https://api.daily.co/";  
             var client = new RestClient(url);
            
             var request = new RestRequest("v1/rooms", Method.Post);
             
             request.AddHeader("Authorization", $"Bearer {EnviConfig.DailyToken}");
-            RestResponse response = client.ExecutePost(request);
+            request.AddJsonBody(_configProperties);
+
+            RestResponse response = await client.ExecutePostAsync(request);
             DailyResponse dailyRoomResp = JsonConvert.DeserializeObject<DailyResponse>(response.Content);
             #endregion
 
             // Lấy thông tin lịch sử cuộc gọi đã gọi cho user
-            string grpCallCode = chatContext.GroupCalls
+            string grpCallCode = await chatContext.GroupCalls
                        .Where(x => x.Type.Equals(Constants.GroupType.SINGLE))
                        .Where(x => x.Calls.Any(y => y.UserCode.Equals(userSession) &&
                                    x.Calls.Any(y => y.UserCode.Equals(callTo))))
                        .Select(x => x.Code)
-                       .FirstOrDefault();
+                       .FirstOrDefaultAsync();
 
-            GroupCall groupCall = chatContext.GroupCalls.FirstOrDefault(x => x.Code.Equals(grpCallCode));
+            GroupCall groupCall = await chatContext.GroupCalls.FirstOrDefaultAsync(x => x.Code.Equals(grpCallCode));
             DateTime dateNow = DateTime.Now;
 
-            User userCallTo = chatContext.Users.FirstOrDefault(x => x.Code.Equals(callTo));
+            User userCallTo = await chatContext.Users.FirstOrDefaultAsync(x => x.Code.Equals(callTo));
 
             // Kiểm tra lịch sử cuộc gọi đã tồn tại hay chưa. Nếu chưa => tạo nhóm gọi mới.
             if (groupCall == null)
@@ -133,7 +153,7 @@ namespace PNChatServer.Service
                     Type = Constants.GroupType.SINGLE,
                     LastActive = dateNow
                 };
-                chatContext.GroupCalls.Add(groupCall);
+                await chatContext.GroupCalls.AddAsync(groupCall);
             }
 
             /// Thêm danh sách thành viên trong cuộc gọi. Mặc định người gọi trạng thái OUT_GOING
@@ -158,12 +178,12 @@ namespace PNChatServer.Service
                 }
             };
 
-            chatContext.Calls.AddRange(calls);
-            chatContext.SaveChanges();
+            await chatContext.Calls.AddRangeAsync(calls);
+            await chatContext.SaveChangesAsync();
 
             ///Truyền thông tin realtime cuộc gọi. Thông tin hubConnection của user.
             if (!string.IsNullOrWhiteSpace(userCallTo.CurrentSession))
-                chatHub.Clients.Client(userCallTo.CurrentSession).SendAsync("callHubListener", dailyRoomResp.url);
+                await chatHub.Clients.Client(userCallTo.CurrentSession).SendAsync("callHubListener", dailyRoomResp.url);
 
             return dailyRoomResp.url;
         }
@@ -173,16 +193,16 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userSession">User hiện tại đang đăng nhập</param>
         /// <param name="url">Đường dẫn truy cập video call</param>
-        public void JoinVideoCall(string userSession, string url)
+        public async Task JoinVideoCall(string userSession, string url)
         {
-            Call call = chatContext.Calls
+            Call call = await chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.Url.Equals(url))
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (call != null)
             {
                 call.Status = Constants.CallStatus.IN_COMMING;
-                chatContext.SaveChanges();
+                await chatContext.SaveChangesAsync();
             }
         }
 
@@ -192,12 +212,12 @@ namespace PNChatServer.Service
         /// </summary>
         /// <param name="userCode">User hiện tại đang đăng nhập</param>
         /// <param name="url">Đường dẫn truy cập video call</param>
-        public void CancelVideoCall(string userSession, string url)
+        public async Task CancelVideoCall(string userSession, string url)
         {
-            string urlCall = chatContext.Calls
+            string urlCall = await chatContext.Calls
                 .Where(x => x.UserCode.Equals(userSession) && x.Url.Equals(url))
                 .Select(x => x.Url)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (!string.IsNullOrWhiteSpace(urlCall))
             {
@@ -209,7 +229,7 @@ namespace PNChatServer.Service
 
                     var request = new RestRequest($"v1/rooms/{urlCall.Split('/').Last()}", Method.Delete);
                     request.AddHeader("Authorization", $"Bearer {EnviConfig.DailyToken}");
-                    RestResponse response = client.Execute(request);
+                    RestResponse response = await client.ExecuteAsync(request);
                     #endregion
                 }
                 catch (Exception ex) { }

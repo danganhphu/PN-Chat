@@ -20,14 +20,14 @@ namespace PNChatServer.Controllers
 
         [Route("profile")]
         [HttpGet]
-        public IActionResult GetProfile()
+        public async Task<IActionResult> GetProfile()
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _userService.GetProfile(userSession);
+                responseAPI.Data = await _userService.GetProfile(userSession);
 
                 return Ok(responseAPI);
             }
@@ -41,14 +41,14 @@ namespace PNChatServer.Controllers
 
         [Route("profile")]
         [HttpPut]
-        public IActionResult UpdateProfile(UserDto user)
+        public async Task<IActionResult> UpdateProfile(UserDto user)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _userService.UpdateProfile(userSession, user);
+                responseAPI.Data = await _userService.UpdateProfile(userSession, user);
 
                 return Ok(responseAPI);
             }
@@ -62,14 +62,14 @@ namespace PNChatServer.Controllers
 
         [Route("contacts")]
         [HttpGet]
-        public IActionResult GetContact()
+        public async Task<IActionResult> GetContact()
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _userService.GetContact(userSession);
+                responseAPI.Data = await _userService.GetContact(userSession);
 
                 return Ok(responseAPI);
             }
@@ -83,14 +83,14 @@ namespace PNChatServer.Controllers
 
         [Route("contacts/search")]
         [HttpGet]
-        public IActionResult SearchContact(string keySearch = null)
+        public async Task<IActionResult> SearchContact(string keySearch = null)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _userService.SearchContact(userSession, keySearch);
+                responseAPI.Data = await _userService.SearchContact(userSession, keySearch);
 
                 return Ok(responseAPI);
             }
@@ -103,13 +103,13 @@ namespace PNChatServer.Controllers
 
         [Route("contacts")]
         [HttpPost]
-        public IActionResult AddContact(UserDto user)
+        public async Task<IActionResult> AddContact(UserDto user)
         {
             ResponseAPI responseAPI = new ResponseAPI();
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _userService.AddContact(userSession, user);
+                await _userService.AddContact(userSession, user);
                 return Ok(responseAPI);
             }
             catch (Exception ex)
