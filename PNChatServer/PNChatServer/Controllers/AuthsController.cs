@@ -23,12 +23,12 @@ namespace PNChatServer.Controllers
 
         [Route("auths/login")]
         [HttpPost]
-        public IActionResult Login(User user)
+        public async Task<IActionResult> Login(User user)
         {
             ResponseAPI responseAPI = new ResponseAPI();
             try
             {
-                AccessToken accessToken = _authService.Login(user);
+                AccessToken accessToken = await _authService.Login(user);
                 responseAPI.Data = accessToken;
                 
                 return Ok(responseAPI);
@@ -42,13 +42,13 @@ namespace PNChatServer.Controllers
 
         [Route("auths/sign-up")]
         [HttpPost]
-        public IActionResult SignUp(User user)
+        public async Task<IActionResult> SignUp(User user)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
-                _authService.SignUp(user);
+                await _authService.SignUp(user);
                 return Ok(responseAPI);
             }
             catch (Exception ex)
@@ -96,14 +96,14 @@ namespace PNChatServer.Controllers
 
         [Route("post-hubconnection")]
         [HttpPost]
-        public IActionResult PutHubConnection(string key)
+        public async Task<IActionResult> PutHubConnection(string key)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _authService.PutHubConnection(userSession, key);
+                await _authService.PutHubConnection(userSession, key);
 
                 return Ok(responseAPI);
             }

@@ -21,14 +21,14 @@ namespace PNChatServer.Controllers
 
         [Route("get-history")]
         [HttpGet]
-        public IActionResult GetHistory()
+        public async Task<IActionResult> GetHistory()
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _chatBoardService.GetHistory(userSession);
+                responseAPI.Data = await _chatBoardService.GetHistory(userSession);
 
                 return Ok(responseAPI);
             }
@@ -42,14 +42,14 @@ namespace PNChatServer.Controllers
 
         [Route("get-info")]
         [HttpGet]
-        public IActionResult GetInfo(string groupCode, string contactCode)
+        public async Task<IActionResult> GetInfo(string groupCode, string contactCode)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _chatBoardService.GetInfo(userSession, groupCode, contactCode);
+                responseAPI.Data = await _chatBoardService.GetInfo(userSession, groupCode, contactCode);
 
                 return Ok(responseAPI);
             }
@@ -63,14 +63,14 @@ namespace PNChatServer.Controllers
 
         [Route("groups")]
         [HttpPost]
-        public IActionResult AddGroup(GroupDto group)
+        public async Task<IActionResult> AddGroup(GroupDto group)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _chatBoardService.AddGroup(userSession, group);
+                await _chatBoardService.AddGroup(userSession, group);
 
                 return Ok(responseAPI);
             }
@@ -84,13 +84,13 @@ namespace PNChatServer.Controllers
 
         [Route("update-group-avatar")]
         [HttpPut]
-        public IActionResult UpdateGroupAvatar(GroupDto group)
+        public async Task<IActionResult> UpdateGroupAvatar(GroupDto group)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
-                responseAPI.Data = _chatBoardService.UpdateGroupAvatar(group);
+                responseAPI.Data = await _chatBoardService.UpdateGroupAvatar(group);
 
                 return Ok(responseAPI);
             }
@@ -104,7 +104,7 @@ namespace PNChatServer.Controllers
 
         [Route("send-message")]
         [HttpPost]
-        public IActionResult SendMessage([FromQuery] string groupCode)
+        public async Task<IActionResult> SendMessage([FromQuery] string groupCode)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
@@ -121,7 +121,7 @@ namespace PNChatServer.Controllers
                 message.Attachments = Request.Form.Files.ToList();
 
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _chatBoardService.SendMessage(userSession, groupCode, message);
+                await _chatBoardService.SendMessage(userSession, groupCode, message);
 
                 return Ok(responseAPI);
             }
@@ -134,14 +134,14 @@ namespace PNChatServer.Controllers
 
         [Route("get-message-by-group/{groupCode}")]
         [HttpGet]
-        public IActionResult GetMessageByGroup(string groupCode)
+        public async Task<IActionResult> GetMessageByGroup(string groupCode)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _chatBoardService.GetMessageByGroup(userSession, groupCode);
+                responseAPI.Data = await _chatBoardService.GetMessageByGroup(userSession, groupCode);
 
                 return Ok(responseAPI);
             }
@@ -155,14 +155,14 @@ namespace PNChatServer.Controllers
 
         [Route("get-message-by-contact/{contactCode}")]
         [HttpGet]
-        public IActionResult GetMessageByContact(string contactCode)
+        public async Task<IActionResult> GetMessageByContact(string contactCode)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responseAPI.Data = _chatBoardService.GetMessageByContact(userSession, contactCode);
+                responseAPI.Data = await _chatBoardService.GetMessageByContact(userSession, contactCode);
 
                 return Ok(responseAPI);
             }

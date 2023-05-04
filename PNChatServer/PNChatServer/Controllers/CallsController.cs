@@ -21,14 +21,14 @@ namespace PNChatServer.Controllers
 
         [Route("call/{userCode}")]
         [HttpGet]
-        public IActionResult Call(string userCode)
+        public async Task<IActionResult> Call(string userCode)
         {
             ResponseAPI responeAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responeAPI.Data = _callService.Call(userSession, userCode);
+                responeAPI.Data = await _callService.Call(userSession, userCode);
 
                 return Ok(responeAPI);
             }
@@ -41,14 +41,14 @@ namespace PNChatServer.Controllers
 
         [Route("get-history")]
         [HttpGet]
-        public IActionResult GetHistory()
+        public async Task<IActionResult> GetHistory()
         {
             ResponseAPI responeAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responeAPI.Data = _callService.GetCallHistory(userSession);
+                responeAPI.Data = await _callService.GetCallHistory(userSession);
 
                 return Ok(responeAPI);
             }
@@ -61,13 +61,13 @@ namespace PNChatServer.Controllers
 
         [Route("get-history/{key}")]
         [HttpGet]
-        public IActionResult GetHistoryById(string key)
+        public async Task<IActionResult> GetHistoryById(string key)
         {
             ResponseAPI responeAPI = new ResponseAPI();
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                responeAPI.Data = _callService.GetHistoryById(userSession, key);
+                responeAPI.Data = await _callService.GetHistoryById(userSession, key);
 
                 return Ok(responeAPI);
             }
@@ -82,14 +82,14 @@ namespace PNChatServer.Controllers
 
         [Route("join-video-call")]
         [HttpGet]
-        public IActionResult JoinVideoCall(string url)
+        public async Task<IActionResult> JoinVideoCall(string url)
         {
             ResponseAPI responeAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _callService.JoinVideoCall(userSession, url);
+                await _callService.JoinVideoCall(userSession, url);
 
                 return Ok(responeAPI);
             }
@@ -103,14 +103,14 @@ namespace PNChatServer.Controllers
 
         [Route("cancel-video-call")]
         [HttpGet]
-        public IActionResult CancelVideoCall(string url)
+        public async Task<IActionResult> CancelVideoCall(string url)
         {
             ResponseAPI responeAPI = new ResponseAPI();
 
             try
             {
                 string userSession = SystemAuthorization.GetCurrentUser(_contextAccessor);
-                _callService.CancelVideoCall(userSession, url);
+                await _callService.CancelVideoCall(userSession, url);
 
                 return Ok(responeAPI);
             }
