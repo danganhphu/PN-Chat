@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { PickerModule } from "@ctrl/ngx-emoji-mart";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +14,6 @@ import { HomeComponent } from './containers/home/home.component';
 import { LoginComponent } from './containers/login/login.component';
 import { LogoutComponent } from './containers/logout/logout.component';
 import { PageNotFoundComponent } from './containers/page-not-found/page-not-found.component';
-import { SignUpComponent } from './containers/sign-up/sign-up.component';
 import { CallDetailComponent } from './containers/home/template/call/call-detail/call-detail.component';
 import { ListCallComponent } from './containers/home/template/call/list-call/list-call.component';
 import { ContactDetailComponent } from './containers/home/template/contact/contact-detail/contact-detail.component';
@@ -32,6 +32,7 @@ import { JwtInterceptor } from './auth/jwt.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
 import { ButtonUploadComponent } from './containers/button-upload/button-upload.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,6 @@ import { ButtonUploadComponent } from './containers/button-upload/button-upload.
     LoginComponent,
     LogoutComponent,
     PageNotFoundComponent,
-    SignUpComponent,
     CallDetailComponent,
     ListCallComponent,
     ContactDetailComponent,
