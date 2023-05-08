@@ -111,6 +111,12 @@
   height: 100%;
 }
 
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
 #outgoingCallIframe,
 #inComingCallIframe {
   width: 100%;
