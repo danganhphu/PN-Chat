@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators'
+import { finalize } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,21 +15,19 @@ import { ChatBoardService } from 'src/app/core/service/chat-board.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { SignalRService } from 'src/app/core/service/signalR.service';
 import { Constants } from 'src/app/core/utils/constants';
-;
-
-
 declare const $: any;
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
-  @ViewChild('listMessage', { static: true }) listMessage!: ListMessageComponent;
+  @ViewChild('listMessage', { static: true })
+  listMessage!: ListMessageComponent;
   @ViewChild('listCall', { static: true }) listCall!: ListCallComponent;
-  @ViewChild('listContact', { static: true }) listContact!: ListContactComponent;
+  @ViewChild('listContact', { static: true })
+  listContact!: ListContactComponent;
 
   currentUser: any = {};
   userProfile: User | any = {};
@@ -37,20 +35,20 @@ export class HomeComponent implements OnInit {
   tabControls: any[] = [
     {
       title: 'Tin nhắn',
-      iconClass: 'mdi-message-text'
+      iconClass: 'mdi-message-text',
     },
     {
       title: 'Cuộc gọi',
-      iconClass: 'mdi-phone'
+      iconClass: 'mdi-phone',
     },
     {
       title: 'Danh bạ',
-      iconClass: 'mdi-account-box-outline'
+      iconClass: 'mdi-account-box-outline',
     },
     {
       title: 'Thông báo',
-      iconClass: 'mdi-bell-outline'
-    }
+      iconClass: 'mdi-bell-outline',
+    },
   ];
 
   tabIndexSelected: number = 0;
@@ -58,8 +56,8 @@ export class HomeComponent implements OnInit {
   memberInNewGroup: User[] = [];
 
   filter = {
-    keySearch: "",
-    groupName: "",
+    keySearch: '',
+    groupName: '',
     group: null,
     contact: null,
     groupCall: null,
@@ -75,19 +73,19 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.currentUser = this.authService.currentUserValue;
     this.signalRService.startConnection();
     // lắng nghe tin nhắn trả về => xử lý
     this.signalRService.hubConnection.on('messageHubListener', (data) => {
-      console.log('messageHubListener: ', data)
+      console.log('messageHubListener: ', data);
       this.listMessage.getData();
     });
     // lắng nghe cuôc gọi đến => xử lý
     this.signalRService.hubConnection.on('callHubListener', (data) => {
-      console.log('callHubListener')
+      console.log('callHubListener');
       this.openModalCall(data);
     });
   }
@@ -111,31 +109,29 @@ export class HomeComponent implements OnInit {
   //#region thêm mới liên hệ
   contactSearchs: User[] = [];
   openModalAddContact() {
-    this.filter.keySearch = "";
+    this.filter.keySearch = '';
     this.contactSearchs = [];
-    $("#modalAddContact").modal();
+    $('#modalAddContact').modal();
   }
 
   searchContact() {
-    this.userService.searchContact(this.filter.keySearch)
-      .subscribe({
-        next: (response: any) => {
-          this.contactSearchs = JSON.parse(response["data"]);
-        },
-        error: (error) => console.log('error: ', error),
-      });
+    this.userService.searchContact(this.filter.keySearch).subscribe({
+      next: (response: any) => {
+        this.contactSearchs = JSON.parse(response['data']);
+      },
+      error: (error) => console.log('error: ', error),
+    });
   }
 
   submitAddContact(contact: any) {
-    this.userService.addContact(contact)
-      .subscribe({
-        next: (response: any) => {
-          this.toastr.success("Thêm thành công")
-          $("#modalAddContact").modal("hide");
-          this.listContact.getContact();
-        },
-        error: (error) => console.log('error: ', error),
-      });
+    this.userService.addContact(contact).subscribe({
+      next: (response: any) => {
+        this.toastr.success('Thêm thành công');
+        $('#modalAddContact').modal('hide');
+        this.listContact.getContact();
+      },
+      error: (error) => console.log('error: ', error),
+    });
   }
 
   //#endregion
@@ -144,7 +140,8 @@ export class HomeComponent implements OnInit {
 
   openModalProfile() {
     this.spinner.show();
-    this.userService.getProfile()
+    this.userService
+      .getProfile()
       .pipe(
         finalize(() => {
           this.spinner.hide();
@@ -152,8 +149,8 @@ export class HomeComponent implements OnInit {
       )
       .subscribe({
         next: (response: any) => {
-          this.userProfile = JSON.parse(response["data"]);
-          $("#modalProfile").modal();
+          this.userProfile = JSON.parse(response['data']);
+          $('#modalProfile').modal();
         },
         error: (error) => console.log('error: ', error),
       });
@@ -161,11 +158,13 @@ export class HomeComponent implements OnInit {
 
   onloadAvatar(img: any) {
     this.userProfile.Avatar = img;
+    console.log('onloadAvatar');
   }
 
   updateProfile() {
     this.spinner.show();
-    this.userService.updateProfile(this.userProfile)
+    this.userService
+      .updateProfile(this.userProfile)
       .pipe(
         finalize(() => {
           this.spinner.hide();
@@ -173,14 +172,21 @@ export class HomeComponent implements OnInit {
       )
       .subscribe({
         next: (response: any) => {
-          this.userProfile = JSON.parse(response["data"]);
-          this.toastr.success("Cập nhật thành công");
+          this.userProfile = JSON.parse(response['data']);
+          this.toastr.success('Cập nhật thành công', 'Thông tin cá nhân', {
+            timeOut: 2000,
+          });
           this.currentUser.Avatar = this.userProfile.Avatar;
           this.currentUser.FullName = this.userProfile.FullName;
-          localStorage.setItem(Constants.LOCAL_STORAGE_KEY.SESSION, JSON.stringify(this.currentUser));
-          $("#modalProfile").modal("hide");
+          localStorage.setItem(
+            Constants.LOCAL_STORAGE_KEY.SESSION,
+            JSON.stringify(this.currentUser)
+          );
+          $('#modalProfile').modal('hide');
         },
-        error: (error) => console.log('error: ', error),
+        error: (error) => this.toastr.error('Cập nhật thất bại', 'Thông tin cá nhân', {
+          timeOut: 2000,
+        }),
       });
   }
 
@@ -189,16 +195,15 @@ export class HomeComponent implements OnInit {
   //#region thêm mới nhóm chat
 
   openModalAddGroup() {
-    this.filter.groupName = "";
-    this.userService.getContact()
-      .subscribe({
-        next: (response: any) => {
-          this.memberInNewGroup = JSON.parse(response["data"]);
-          this.memberInNewGroup.forEach(x => x.fieldStamp1 = false);
-          $("#modalAddGroup").modal();
-        },
-        error: (error) => console.log('error: ', error),
-      });
+    this.filter.groupName = '';
+    this.userService.getContact().subscribe({
+      next: (response: any) => {
+        this.memberInNewGroup = JSON.parse(response['data']);
+        this.memberInNewGroup.forEach((x) => (x.fieldStamp1 = false));
+        $('#modalAddGroup').modal();
+      },
+      error: (error) => console.log('error: ', error),
+    });
   }
 
   addMemberToGroup(member: User) {
@@ -211,39 +216,48 @@ export class HomeComponent implements OnInit {
 
   submitAddGroup() {
     if (this.filter.groupName == null || this.filter.groupName.trim() == '') {
-      this.toastr.error("Tên nhóm không được để trống");
+      this.toastr.error('Tên nhóm không được để trống', 'Tạo nhóm', {
+        timeOut: 2000,
+      });
       return;
     }
 
-    if (this.memberInNewGroup.filter(x => x.fieldStamp1).length == 0) {
-      this.toastr.error("Danh sách thành viên không được để trống");
+    if (this.memberInNewGroup.filter((x) => x.fieldStamp1).length == 0) {
+      this.toastr.error('Danh sách thành viên không được để trống', 'Thành viên nhóm', {
+        timeOut: 2000,
+      });
       return;
     }
 
-    this.chatBoardService.addGroup({
-      Name: this.filter.groupName,
-      Users: this.memberInNewGroup.filter(x => x.fieldStamp1)
-    })
+    this.chatBoardService
+      .addGroup({
+        Name: this.filter.groupName,
+        Users: this.memberInNewGroup.filter((x) => x.fieldStamp1),
+      })
       .subscribe({
         next: (response: any) => {
-          this.toastr.success("Thêm thành công")
-          $("#modalAddContact").modal("hide");
+          this.toastr.success('Thêm thành công', 'Thêm vào nhóm', {
+            timeOut: 2000,
+          });
+          $('#modalAddContact').modal('hide');
           this.listMessage.getData();
         },
-        error: (error) => console.log('error: ', error),
+        error: (error) => this.toastr.error('Thêm thất bại', 'Thêm vào nhóm', {
+          timeOut: 2000,
+        }),
       });
   }
 
   //#endregion
 
   openModalCall(url: any) {
-    if (confirm("Có cuộc gọi đến")) {
+    if (confirm('Có cuộc gọi đến')) {
       this.callService
-        .joinVideoCall($("#inComingCallIframe").attr("src"))
+        .joinVideoCall($('#inComingCallIframe').attr('src'))
         .subscribe({
           next: (response: any) => {
-            $("#modalInComingCall").modal();
-            $("#inComingCallIframe").attr("src", url)
+            $('#modalInComingCall').modal();
+            $('#inComingCallIframe').attr('src', url);
           },
           error: (error) => console.log('error: ', error),
         });
@@ -251,18 +265,18 @@ export class HomeComponent implements OnInit {
   }
 
   rejectCall() {
-    $("#modalInComingCall").modal("hide");
-    $("#inComingCallIframe").attr("src", "");
+    $('#modalInComingCall').modal('hide');
+    $('#inComingCallIframe').attr('src', '');
     this.listCall.getData();
   }
 
   cancelVideoCall() {
     this.callService
-      .cancelVideoCall($("#outgoingCallIframe").attr("src"))
+      .cancelVideoCall($('#outgoingCallIframe').attr('src'))
       .subscribe({
         next: (response: any) => {
-          $("#modalOutgoingCall").modal("hide");
-          $("#outgoingCallIframe").attr("src", "");
+          $('#modalOutgoingCall').modal('hide');
+          $('#outgoingCallIframe').attr('src', '');
           this.listCall.getData();
         },
         error: (error) => console.log('error: ', error),
