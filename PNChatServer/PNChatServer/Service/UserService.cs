@@ -153,7 +153,7 @@ namespace PNChatServer.Service
             });
 
             // Loại bỏ liên hệ đã có
-            return users.FindAll(x => !x.IsFriend);
+            return users.FindAll(x => !x.IsFriend || x.IsFriend);
         }
 
         
