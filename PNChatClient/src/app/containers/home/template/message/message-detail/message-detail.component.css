@@ -8,3 +8,6 @@
   left: calc(50% + 30px);
   cursor: pointer;
 }
+.mdi-download {
+  color: #f0f0f0;
+}
