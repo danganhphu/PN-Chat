@@ -3,8 +3,9 @@
         <div *ngIf="currentUser !=null" class="body-vchat-left-header">
             <div (click)="openModalProfile()" class="box-avatar">
                 <img [src]="currentUser.Avatar | pipeHostFile">
-                <span>{{currentUser.FullName.split(' ').pop()}}</span>
+                
             </div>
+            <div class="box-fullname"><span>{{currentUser.FullName.split(' ').pop()}}</span></div>
             <div class="box-add-user-group">
                 <span (click)="openModalAddContact()" class="icon-control" title="Thêm liên hệ">
                     <i class="mdi mdi-account-plus"></i>

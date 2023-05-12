@@ -200,10 +200,22 @@ export class HomeComponent implements OnInit {
       next: (response: any) => {
         this.memberInNewGroup = JSON.parse(response['data']);
         this.memberInNewGroup.forEach((x) => (x.fieldStamp1 = false));
+        this.removeItemGroup(this.currentUser.FullName);
+        this.uniqByFilterGroup();
         $('#modalAddGroup').modal();
       },
       error: (error) => console.log('error: ', error),
     });
+  }
+
+  removeItemGroup(obj: any) {
+    this.memberInNewGroup = this.memberInNewGroup.filter(c => c.FullName !== obj)
+  }
+  uniqByFilterGroup() {
+    this.memberInNewGroup = this.memberInNewGroup.filter(
+      (value, index, array) =>
+        index == array.findIndex((item) => item.FullName == value.FullName)
+    );
   }
 
   addMemberToGroup(member: User) {
