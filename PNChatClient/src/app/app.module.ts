@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
-import { PickerModule } from "@ctrl/ngx-emoji-mart";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +18,7 @@ import { ListCallComponent } from './containers/home/template/call/list-call/lis
 import { ContactDetailComponent } from './containers/home/template/contact/contact-detail/contact-detail.component';
 import { ListContactComponent } from './containers/home/template/contact/list-contact/list-contact.component';
 import { DefaultComponent } from './containers/home/template/default/default.component';
-import { MessageDetailComponent } from './containers/home/template/message/message-detail/message-detail.component';
+
 import { ListMessageComponent } from './containers/home/template/message/list-message/list-message.component';
 import { NotificationDetailComponent } from './containers/home/template/notification/notification-detail/notification-detail.component';
 import { ListNotificationComponent } from './containers/home/template/notification/list-notification/list-notification.component';
@@ -31,8 +30,10 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
 import { ButtonUploadComponent } from './containers/button-upload/button-upload.component';
-
-
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { MessageDetailComponent } from './containers/home/template/message/message-detail/message-detail.component';
+import { CustomEmoijComponent } from './containers/custom-emoij/custom-emoij.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +53,7 @@ import { ButtonUploadComponent } from './containers/button-upload/button-upload.
     ChatDatePipe,
     PipeHostFilePipe,
     ButtonUploadComponent,
+    CustomEmoijComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +64,8 @@ import { ButtonUploadComponent } from './containers/button-upload/button-upload.
     HttpClientModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
+    PickerModule,
+    EmojiModule,
   ],
   providers: [
     AuthGuardService,
