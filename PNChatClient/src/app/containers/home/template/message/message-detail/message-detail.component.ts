@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { saveAs } from 'file-saver';
+import * as $$ from 'jquery';
 
 import { Message } from 'src/app/core/models/message';
 import { User } from 'src/app/core/models/user';
@@ -25,6 +26,7 @@ export class MessageDetailComponent implements OnInit {
   textMessage: string = '';
   groupInfo: any = null;
 
+
   constructor(
     private callService: CallService,
     private chatBoardService: ChatBoardService,
@@ -38,6 +40,19 @@ export class MessageDetailComponent implements OnInit {
       console.log('messageHubListener:', data);
       this.getMessage();
     });
+    $("#my-text").emojioneArea({
+      
+      events: {
+        keydown: function (editor: any, event: KeyboardEvent) {
+          console.log('event:keydown');
+        }
+      }
+      
+  });
+  }
+
+  mess() {
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -93,12 +108,15 @@ export class MessageDetailComponent implements OnInit {
     if (!event.shiftKey && event.code == 'Enter') {
       this.sendMessage();
       event.preventDefault();
+      
     }
   }
 
   sendMessage() {
+    this.textMessage = `${this.textMessage}${$("#my-text").emojioneArea({
+      
+    }).val()}`;
     if (this.textMessage == null || this.textMessage.trim() == '') return;
-
     const formData = new FormData();
 
     formData.append(
@@ -116,7 +134,11 @@ export class MessageDetailComponent implements OnInit {
         next: (response: any) => (this.textMessage = ''),
         error: (error) => console.log('error: ', error),
       });
+
+      $(".emojionearea-editor").html('');
   }
+
+
 
   sendFile(event: any) {
     if (event.target.files && event.target.files[0]) {

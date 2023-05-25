@@ -11,3 +11,9 @@
 .mdi-download {
   color: #f0f0f0;
 }
+.emojionearea {
+  width: 90%;
+}
+.emojionearea .emojionearea-editor {
+    min-height: 1em;
+}

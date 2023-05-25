@@ -99,10 +99,22 @@
                         <input type='file' [hidden]="true" (change)="sendImage($event)" id="image_attach_upload"
                             accept=".gif,.jpg,.jpeg,.png">
                     </span>
+
+
                 </div>
-                <div class="box-chat-send-text">
-                    <textarea (keydown)="onKeydown($event)" [(ngModel)]="textMessage" class="form-control" rows="1"
-                        placeholder="Nhập nội dung tin nhắn"></textarea>
+                <div class="box-chat-send-text" (keypress)="onKeydown($event)">
+                        <textarea id="my-text" (keydown)="onKeydown($event)" [(ngModel)]="textMessage" class="form-control" rows="1" placeholder="Nhập nội dung tin nhắn">
+                        </textarea>
+
+                        
+                            <!-- <button (click) ="toggleEmojiPicker()"> 😀</button>
+                            <emoji-mart *ngIf="showEmojiPicker"
+                                [showPreview]="false"
+                                (emojiClick)="addEmoji($event)"
+                                [isNative]="true"
+                                [showSingleCategory]="true">
+                            </emoji-mart> -->
+                    
                 </div>
                 <div (click)="sendMessage()" class="btn-send-message">
                     <span title="Gửi">
