@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MessageDetailComponent } from './message-detail.component';
+
+
 
 describe('MessageDetailComponent', () => {
   let component: MessageDetailComponent;
@@ -8,9 +9,8 @@ describe('MessageDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MessageDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [MessageDetailComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MessageDetailComponent);
     component = fixture.componentInstance;
