@@ -72,7 +72,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #region EntityFramework Core
 builder.Services.AddDbContext<DbChatContext>(option =>
 {
-    option.UseLazyLoadingProxies().UseSqlServer(EnviConfig.DbConnectionString);
+    option.UseLazyLoadingProxies().UseSqlServer(EnviConfig.ProdConnectionString);
 });
 #endregion
 
