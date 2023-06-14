@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.Extensions.Logging;
 using PNChatServer.Data;
 using PNChatServer.Dto;
 using PNChatServer.Hubs;
 using PNChatServer.Models;
 using PNChatServer.Repository;
 using PNChatServer.Utils;
+using System.Reflection.Metadata;
 using System.Runtime.ExceptionServices;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace PNChatServer.Service
 {
@@ -16,12 +20,16 @@ namespace PNChatServer.Service
         protected readonly DbChatContext chatContext;
         protected readonly IWebHostEnvironment webHostEnvironment;
         protected IHubContext<ChatHub> chatHub;
+        private readonly string _storageConnectionString;
+        private readonly string _storageContainerName;
 
-        public ChatBoardService(DbChatContext chatContext, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> chatHub)
+        public ChatBoardService(DbChatContext chatContext, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> chatHub, IConfiguration configuration)
         {
             this.chatContext = chatContext;
             this.chatHub = chatHub;
             this.webHostEnvironment = webHostEnvironment;
+            _storageConnectionString = configuration.GetValue<string>("BlobConnectionString");
+            _storageContainerName = configuration.GetValue<string>("BlobContainerName");
         }
 
 
@@ -207,16 +215,48 @@ namespace PNChatServer.Service
             {
                 if (group.Avatar.Contains("data:image/png;base64,"))
                 {
-                    string pathAvatar = $"Resource/Avatar/{Guid.NewGuid().ToString("N")}";
-                    string pathFile = Path.Combine(webHostEnvironment.ContentRootPath, pathAvatar);
-                    DataHelpers.Base64ToImage(group.Avatar.Replace("data:image/png;base64,", ""), pathFile);
-                    grp.Avatar = group.Avatar = pathAvatar;
+                    //string pathAvatar = $"Resource/Avatar/{Guid.NewGuid().ToString("N")}";
+                    //string pathFile = Path.Combine(webHostEnvironment.ContentRootPath, pathAvatar);
+                    //DataHelpers.Base64ToImage(group.Avatar.Replace("data:image/png;base64,", ""), pathFile);
+
+                    var fileName = Guid.NewGuid().ToString() + ".jpg";
+                    var data = group.Avatar.Replace("data:image/png;base64,", "");
+                    byte[] imageBytes = Convert.FromBase64String(data);
+                    string container = "blobcontainer";
+                    string blobconnect = "DefaultEndpointsProtocol=https;AccountName=pnchatstorage;AccountKey=kxdoY/j/U+Bg3MGLMzFavw40hz575PPP3sEFYzCuOJxjHrCUf9an0Of0WyOwfNNk1y+51U0HTGAG+AStitfbbQ==;EndpointSuffix=core.windows.net";
+
+                    var blobClient = new BlobClient(blobconnect, container, fileName);
+
+                    using (var stream = new MemoryStream(imageBytes))
+                    {
+                        await blobClient.UploadAsync(stream);
+                    }
+                    var urlImg = blobClient.Uri.AbsoluteUri;
+
+                    grp.Avatar = group.Avatar = urlImg;
                 }
                 await chatContext.SaveChangesAsync();
             }
             return group;
         }
 
+        public async Task UploadBlobFile(IFormFile blob)
+        {
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            // Create the container if it does not exist
+            await container.CreateIfNotExistsAsync();
+            BlobClient client = container.GetBlobClient(blob.FileName);
+
+            // Open a stream for the file we want to upload
+            await using (Stream data = blob.OpenReadStream())
+            {
+                // Upload the file async
+                await client.UploadAsync(data);
+            }
+
+
+        }
         /// <summary>
         /// Gửi tin nhắn
         /// </summary>
@@ -280,13 +320,14 @@ namespace PNChatServer.Service
                         string pathFile = path + "/" + message.Attachments[0].FileName;
                         if (!File.Exists(pathFile))
                         {
-                            using (var stream = File.Create(pathFile))
+                            using (var stream = new MemoryStream())
                             {
                                 await message.Attachments[0].CopyToAsync(stream);
+                                await UploadBlobFile(message.Attachments[0]);
                             }
                         }
                         message.Content = message.Attachments[0].FileName;
-                        message.Path = $"Resource/Attachment/{DateTime.Now.Year}/{message.Attachments[0].FileName}";
+                        message.Path = $"https://pnchatstorage.blob.core.windows.net/{_storageContainerName}/{message.Attachments[0].FileName}";
                     }
                 }
                 catch (Exception ex)
