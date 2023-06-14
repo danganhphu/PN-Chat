@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +70,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #endregion
 
+#region blob storage
+builder.Services.AddScoped(x => new BlobServiceClient(EnviConfig.BlobConnectionString));
+#endregion
+
 #region EntityFramework Core
 builder.Services.AddDbContext<DbChatContext>(option =>
 {
@@ -81,6 +86,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICallService, CallService>();
 builder.Services.AddScoped<IChatBoardService, ChatBoardService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddTransient<IAzureStorage, AzureStorage>();
 #endregion
 
 var app = builder.Build();
@@ -95,6 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors(policy);
 app.UseAuthorization();
