@@ -2,9 +2,9 @@ name: GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main/PNChatClient"]
   pull_request:
-    branches: ["main"]
+    branches: ["main/PNChatClient"]
 
 jobs:
   # build job
