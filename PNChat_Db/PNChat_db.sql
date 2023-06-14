@@ -146,3 +146,228 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230328081737_FixAccessor', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427051550_fix_Usercode', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427052829_Usercode', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427131855_fix_Nullable', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427143314_fix_ModelNullable', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427154848_fix_models', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Message]') AND [c].[name] = N'Type');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Message] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [Message] ALTER COLUMN [Type] varchar(10) NULL;
+GO
+
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Message]') AND [c].[name] = N'GroupCode');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [Message] DROP CONSTRAINT [' + @var1 + '];');
+ALTER TABLE [Message] ALTER COLUMN [GroupCode] varchar(32) NULL;
+GO
+
+DECLARE @var2 sysname;
+SELECT @var2 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Message]') AND [c].[name] = N'CreatedBy');
+IF @var2 IS NOT NULL EXEC(N'ALTER TABLE [Message] DROP CONSTRAINT [' + @var2 + '];');
+ALTER TABLE [Message] ALTER COLUMN [CreatedBy] varchar(32) NULL;
+GO
+
+DECLARE @var3 sysname;
+SELECT @var3 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[GroupUser]') AND [c].[name] = N'UserCode');
+IF @var3 IS NOT NULL EXEC(N'ALTER TABLE [GroupUser] DROP CONSTRAINT [' + @var3 + '];');
+ALTER TABLE [GroupUser] ALTER COLUMN [UserCode] varchar(32) NULL;
+GO
+
+DECLARE @var4 sysname;
+SELECT @var4 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[GroupUser]') AND [c].[name] = N'GroupCode');
+IF @var4 IS NOT NULL EXEC(N'ALTER TABLE [GroupUser] DROP CONSTRAINT [' + @var4 + '];');
+ALTER TABLE [GroupUser] ALTER COLUMN [GroupCode] varchar(32) NULL;
+GO
+
+DECLARE @var5 sysname;
+SELECT @var5 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[GroupCall]') AND [c].[name] = N'Type');
+IF @var5 IS NOT NULL EXEC(N'ALTER TABLE [GroupCall] DROP CONSTRAINT [' + @var5 + '];');
+ALTER TABLE [GroupCall] ALTER COLUMN [Type] varchar(32) NULL;
+GO
+
+DECLARE @var6 sysname;
+SELECT @var6 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[GroupCall]') AND [c].[name] = N'CreatedBy');
+IF @var6 IS NOT NULL EXEC(N'ALTER TABLE [GroupCall] DROP CONSTRAINT [' + @var6 + '];');
+ALTER TABLE [GroupCall] ALTER COLUMN [CreatedBy] varchar(32) NULL;
+GO
+
+DECLARE @var7 sysname;
+SELECT @var7 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Group]') AND [c].[name] = N'Type');
+IF @var7 IS NOT NULL EXEC(N'ALTER TABLE [Group] DROP CONSTRAINT [' + @var7 + '];');
+ALTER TABLE [Group] ALTER COLUMN [Type] varchar(32) NULL;
+GO
+
+DECLARE @var8 sysname;
+SELECT @var8 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Group]') AND [c].[name] = N'CreatedBy');
+IF @var8 IS NOT NULL EXEC(N'ALTER TABLE [Group] DROP CONSTRAINT [' + @var8 + '];');
+ALTER TABLE [Group] ALTER COLUMN [CreatedBy] varchar(32) NULL;
+GO
+
+DECLARE @var9 sysname;
+SELECT @var9 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Contact]') AND [c].[name] = N'UserCode');
+IF @var9 IS NOT NULL EXEC(N'ALTER TABLE [Contact] DROP CONSTRAINT [' + @var9 + '];');
+ALTER TABLE [Contact] ALTER COLUMN [UserCode] varchar(32) NULL;
+GO
+
+DECLARE @var10 sysname;
+SELECT @var10 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Contact]') AND [c].[name] = N'ContactCode');
+IF @var10 IS NOT NULL EXEC(N'ALTER TABLE [Contact] DROP CONSTRAINT [' + @var10 + '];');
+ALTER TABLE [Contact] ALTER COLUMN [ContactCode] varchar(32) NULL;
+GO
+
+DECLARE @var11 sysname;
+SELECT @var11 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Call]') AND [c].[name] = N'UserCode');
+IF @var11 IS NOT NULL EXEC(N'ALTER TABLE [Call] DROP CONSTRAINT [' + @var11 + '];');
+ALTER TABLE [Call] ALTER COLUMN [UserCode] varchar(32) NULL;
+GO
+
+DECLARE @var12 sysname;
+SELECT @var12 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Call]') AND [c].[name] = N'Url');
+IF @var12 IS NOT NULL EXEC(N'ALTER TABLE [Call] DROP CONSTRAINT [' + @var12 + '];');
+ALTER TABLE [Call] ALTER COLUMN [Url] nvarchar(500) NULL;
+GO
+
+DECLARE @var13 sysname;
+SELECT @var13 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Call]') AND [c].[name] = N'Status');
+IF @var13 IS NOT NULL EXEC(N'ALTER TABLE [Call] DROP CONSTRAINT [' + @var13 + '];');
+ALTER TABLE [Call] ALTER COLUMN [Status] varchar(32) NULL;
+GO
+
+DECLARE @var14 sysname;
+SELECT @var14 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Call]') AND [c].[name] = N'GroupCallCode');
+IF @var14 IS NOT NULL EXEC(N'ALTER TABLE [Call] DROP CONSTRAINT [' + @var14 + '];');
+ALTER TABLE [Call] ALTER COLUMN [GroupCallCode] varchar(32) NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230427173845_fix', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230428040757_fix_nullableV1', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230428041931_fix_nullableV2', N'7.0.4');
+GO
+
+COMMIT;
+GO
+
