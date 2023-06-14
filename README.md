@@ -1,7 +1,7 @@
 ### PNChat Project - danganhphu
 ### Built With
 
-* [![.Net][DotNet-fr]][DotNet-url] * [![C#][CSharp-dotnet]][CSharp-url] * [![Angular][Angular.io]][Angular-url] * [![TypeScript][TypeScript-ng]][TypeScript-url] * [![MicrosoftSQLServer][MSSQL-db]][MSSQL-url] * [![NPM][NPM-pmv]][NPM-url]
+* [![.Net][DotNet-fr]][DotNet-url]  [![C#][CSharp-dotnet]][CSharp-url]  [![Angular][Angular.io]][Angular-url]  [![TypeScript][TypeScript-ng]][TypeScript-url]  [![MicrosoftSQLServer][MSSQL-db]][MSSQL-url]  [![NPM][NPM-pmv]][NPM-url]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
