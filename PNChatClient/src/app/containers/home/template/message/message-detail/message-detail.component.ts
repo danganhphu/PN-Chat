@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { saveAs } from 'file-saver';
-import * as $$ from 'jquery';
 
 import { Message } from 'src/app/core/models/message';
 import { User } from 'src/app/core/models/user';
@@ -41,18 +40,18 @@ export class MessageDetailComponent implements OnInit {
       this.getMessage();
     });
     $("#my-text").emojioneArea({
-      
+
       events: {
         keydown: function (editor: any, event: KeyboardEvent) {
           console.log('event:keydown');
         }
       }
-      
+
   });
   }
 
   mess() {
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -108,13 +107,13 @@ export class MessageDetailComponent implements OnInit {
     if (!event.shiftKey && event.code == 'Enter') {
       this.sendMessage();
       event.preventDefault();
-      
+
     }
   }
 
   sendMessage() {
     this.textMessage = `${this.textMessage}${$("#my-text").emojioneArea({
-      
+
     }).val()}`;
     if (this.textMessage == null || this.textMessage.trim() == '') return;
     const formData = new FormData();
