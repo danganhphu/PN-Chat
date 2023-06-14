@@ -90,3 +90,6 @@ C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Debug\net6.0\PNChatServer.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\RestSharp.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\bin\Debug\net6.0\System.IO.Hashing.dll

@@ -30,10 +30,9 @@ import { AuthGuardService } from './auth/auth-guard.service';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
 import { ButtonUploadComponent } from './containers/button-upload/button-upload.component';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+
 import { MessageDetailComponent } from './containers/home/template/message/message-detail/message-detail.component';
-import { CustomEmoijComponent } from './containers/custom-emoij/custom-emoij.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +51,7 @@ import { CustomEmoijComponent } from './containers/custom-emoij/custom-emoij.com
     ListNotificationComponent,
     ChatDatePipe,
     PipeHostFilePipe,
-    ButtonUploadComponent,
-    CustomEmoijComponent,
+    ButtonUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -64,8 +62,6 @@ import { CustomEmoijComponent } from './containers/custom-emoij/custom-emoij.com
     HttpClientModule,
     NgxSpinnerModule,
     ToastrModule.forRoot(),
-    PickerModule,
-    EmojiModule,
   ],
   providers: [
     AuthGuardService,

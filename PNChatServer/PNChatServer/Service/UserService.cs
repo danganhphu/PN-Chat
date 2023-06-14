@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Azure.Storage.Blobs;
+using Microsoft.EntityFrameworkCore;
 using PNChatServer.Data;
 using PNChatServer.Dto;
 using PNChatServer.Models;
 using PNChatServer.Repository;
 using PNChatServer.Utils;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace PNChatServer.Service
 {
@@ -11,7 +15,6 @@ namespace PNChatServer.Service
     {
         protected readonly DbChatContext chatContext;
         protected readonly IWebHostEnvironment webHostEnvironment;
-
         public UserService(DbChatContext chatContext, IWebHostEnvironment webHostEnvironment)
         {
             this.chatContext = chatContext;
@@ -51,21 +54,55 @@ namespace PNChatServer.Service
         {
             User us = await chatContext.Users
                     .FirstOrDefaultAsync(x => x.Code.Equals(userCode));
-
+            
             if (us != null)
             {
                 us.FullName = user.FullName;
                 us.Dob = user.Dob;
                 us.Email = user.Email;
 
+                //var fileName = Guid.NewGuid().ToString() + ".jpg";
+
+                // Limpa o hash enviado
+                //var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(user.Avatar, "");
+
+                //// Gera um array de Bytes
+                //byte[] imageBytes = Convert.FromBase64String(data);
+                //string container = "blobcontainer";
+                //string blobconnect = "DefaultEndpointsProtocol=https;AccountName=pnchatstorage;AccountKey=kxdoY/j/U+Bg3MGLMzFavw40hz575PPP3sEFYzCuOJxjHrCUf9an0Of0WyOwfNNk1y+51U0HTGAG+AStitfbbQ==;EndpointSuffix=core.windows.net";
+                //// Define o BLOB no qual a imagem será armazenada
+                //var blobClient = new BlobClient(blobconnect, container, fileName);
+
+                //// Envia a imagem
+                //using (var stream = new MemoryStream(imageBytes))
+                //{
+                //    await blobClient.UploadAsync(stream);
+                //}
+
+                ////Retorna a URL da imagem
+                //var urlImg = blobClient.Uri.AbsoluteUri;
                 if (user.Avatar.Contains("data:image/png;base64,"))
                 {
-                    string pathAvatar = $"Resource/Avatar/{Guid.NewGuid().ToString("N")}";
-                    string pathFile = Path.Combine(webHostEnvironment.ContentRootPath, pathAvatar);
-                    DataHelpers.Base64ToImage(user.Avatar.Replace("data:image/png;base64,", ""), pathFile);
-                    us.Avatar = user.Avatar = pathAvatar;
-                }
+                    var fileName = Guid.NewGuid().ToString() + ".jpg";
+                    //string pathAvatar = $"Resource/Avatar/{Guid.NewGuid().ToString("N")}";
+                    //string pathFile = Path.Combine(webHostEnvironment.ContentRootPath, pathAvatar);
+                    //DataHelpers.Base64ToImage(user.Avatar.Replace("data:image/png;base64,", ""), pathFile);
+                    var data = user.Avatar.Replace("data:image/png;base64,", "");
+                    byte[] imageBytes = Convert.FromBase64String(data);
+                    string container = "blobcontainer";
+                    string blobconnect = "DefaultEndpointsProtocol=https;AccountName=pnchatstorage;AccountKey=kxdoY/j/U+Bg3MGLMzFavw40hz575PPP3sEFYzCuOJxjHrCUf9an0Of0WyOwfNNk1y+51U0HTGAG+AStitfbbQ==;EndpointSuffix=core.windows.net";
+                    //// Define o BLOB no qual a imagem será armazenada
+                    var blobClient = new BlobClient(blobconnect, container, fileName);
 
+                    //// Envia a imagem
+                    using (var stream = new MemoryStream(imageBytes))
+                    {
+                        await blobClient.UploadAsync(stream);
+                    }
+                    var urlImg = blobClient.Uri.AbsoluteUri;
+
+                    us.Avatar = user.Avatar = urlImg;
+                }
                 us.Address = user.Address;
                 us.Phone = user.Phone;
                 us.Gender = user.Gender;
@@ -74,6 +111,7 @@ namespace PNChatServer.Service
             }
             return user;
         }
+
 
         /// <summary>
         /// Thêm mới liên hệ

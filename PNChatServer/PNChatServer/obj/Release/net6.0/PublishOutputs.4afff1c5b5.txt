@@ -6,6 +6,8 @@ C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\PNChatServer.pdb
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Azure.Core.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Azure.Identity.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Azure.Storage.Blobs.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Azure.Storage.Common.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Castle.Core.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
@@ -43,6 +45,7 @@ C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.IO.Hashing.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.Memory.Data.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.Runtime.Caching.dll
 C:\Users\Admin\Desktop\Project\PN-Chat\PNChatServer\PNChatServer\obj\Release\net6.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll

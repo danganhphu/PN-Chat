@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "staging": "ng build --watch --configuration staging",
-    "test": "ng test"
+    "test": "ng test",
+    "sme": "ng build --source-map=true --named-chunks==true && source-map-explorer dist/pnchat-client/**/*.js"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "source-map-explorer": "^2.5.3",
     "typescript": "~4.9.4"
   }
 }

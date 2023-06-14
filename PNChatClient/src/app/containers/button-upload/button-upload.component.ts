@@ -1,4 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { DataHelper } from 'src/app/core/utils/data-helper';
 
 @Component({
@@ -7,34 +15,35 @@ import { DataHelper } from 'src/app/core/utils/data-helper';
 })
 export class ButtonUploadComponent implements OnInit {
   @Input()
-  srcDefault: string = 'Resource/no_image.jpg';
+  srcDefault: string =
+    'https://pnchatstorage.blob.core.windows.net/blobcontainer/no_image.jpg';
 
   @Output()
   onload = new EventEmitter<string>();
 
   @ViewChild('inpFile', { static: true }) inpFileElement!: ElementRef;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   chooseFile() {
-    this.inpFileElement.nativeElement.click()
+    this.inpFileElement.nativeElement.click();
   }
 
   onFileChange(evt: any) {
     const target: DataTransfer = <DataTransfer>evt.target;
     if (target.files.length === 0) {
-      this.srcDefault = "";
+      this.srcDefault = '';
       return;
     }
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
       try {
         var bytes = new Uint8Array(e.target.result);
-        this.srcDefault = "data:image/png;base64," + DataHelper.toBase64(bytes);
+        this.srcDefault = 'data:image/png;base64,' + DataHelper.toBase64(bytes);
         this.onload.emit(this.srcDefault);
       } catch (error) {
-        alert("Lỗi ảnh");
+        alert('Lỗi ảnh');
       }
     };
     reader.readAsArrayBuffer(target.files[0]);

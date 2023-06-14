@@ -2,6 +2,8 @@
 using PNChatServer.Dto;
 using PNChatServer.Models;
 using PNChatServer.Repository;
+using PNChatServer.Service;
+using System;
 
 namespace PNChatServer.Controllers
 {
@@ -12,10 +14,12 @@ namespace PNChatServer.Controllers
         private IAuthService _authService;
         private IWebHostEnvironment _webHostEnvironment;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IAzureStorage _azureStorage;
 
-        public AuthsController(IAuthService authService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor contextAccessor)
+        public AuthsController(IAuthService authService, IAzureStorage azureStorage, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor contextAccessor)
         {
             _authService = authService;
+            _azureStorage = azureStorage;
             _webHostEnvironment = webHostEnvironment;
             _contextAccessor = contextAccessor;
         }
@@ -59,14 +63,17 @@ namespace PNChatServer.Controllers
         }
 
         [HttpGet("img")]
-        public IActionResult DownloadImage(string key)
+        public async Task<IActionResult> DownloadImage(string key)
         {
             try
             {
-                string path = Path.Combine(_webHostEnvironment.ContentRootPath, key);
-                var image = System.IO.File.OpenRead(path);
+                BlobDto result = await _azureStorage.DownloadAsync(key);
 
-                return File(image, "image/*");
+                return File(result.Content, result.ContentType);
+                //string path = Path.Combine(_webHostEnvironment.ContentRootPath, key);
+                //var image = System.IO.File.OpenRead(path);
+
+                //return File(image, "image/*");
             }
             catch (Exception ex)
             {
@@ -75,17 +82,19 @@ namespace PNChatServer.Controllers
         }
 
         [HttpGet("file")]
-        public IActionResult DownloadFile(string key)
+        public async Task<IActionResult> DownloadFile(string key)
         {
             ResponseAPI responseAPI = new ResponseAPI();
 
             try
             {
-                string path = Path.Combine(_webHostEnvironment.ContentRootPath, key);
-                Stream stream = new FileStream(path, FileMode.Open);
+                //string path = Path.Combine(_webHostEnvironment.ContentRootPath, key);
+                //Stream stream = new FileStream(path, FileMode.Open);
                 responseAPI.Data = "";
+                BlobDto result = await _azureStorage.DownloadAsync(key);
 
-                return File(stream, "application/octet-stream", key);
+                return File(result.Content, result.ContentType, result.Name);
+                //return File(stream, "application/octet-stream", key);
             }
             catch (Exception ex)
             {
