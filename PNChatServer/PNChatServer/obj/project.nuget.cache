@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "emeG59byX0SAeekaVKjsXQY0fihR4m4LDubzsnk5yYc6ClhgqHoa3KtP8uUF1VaxY3BZlzCAkXgJfiBC5f7PIQ==",
+  "dgSpecHash": "5QlFTZI4FqhEgYMC9lveXj7c0IumYAwsEejqyDFQPvcwUMt64wLrqwuItNQv9l62BScweB9W0mNYEUiMr2XsEg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Desktop\\Project\\PN-Chat\\PNChatServer\\PNChatServer\\PNChatServer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.31.0\\azure.core.1.31.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\azure.storage.blobs\\12.16.0\\azure.storage.blobs.12.16.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\azure.storage.common\\12.15.0\\azure.storage.common.12.15.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.15\\microsoft.aspnetcore.authentication.jwtbearer.6.0.15.nupkg.sha512",
@@ -63,6 +65,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
