@@ -1,13 +1,16 @@
 {
   "name": "pnchat-client",
   "version": "0.0.0",
+  "author": "Đặng Anh Phú<daphu.dev@gmail.com> (https://github.com/danganhphu)",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production --source-map --base-href https://danganhphu.github.io/pnchat/",
     "watch": "ng build --watch --configuration development",
     "staging": "ng build --watch --configuration staging",
     "test": "ng test",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "sme": "ng build --source-map=true --named-chunks==true && source-map-explorer dist/pnchat-client/**/*.js"
   },
   "private": true,
